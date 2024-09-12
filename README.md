@@ -35,6 +35,8 @@ Users should be able to:
 - JavaScript
 - Node.js
 - Express.js
+- MongoDB
+- Mongoose
 
 ### What I learned
 
