@@ -18,7 +18,9 @@ This is a solution to the [Exercise Tracker](https://www.freecodecamp.org/learn/
 
 Users should be able to:
 
--
+- create user
+- add exercises for user
+- get exercise logs for user with or without "from" or "to" or "limit" queries
 
 ### Links
 
@@ -36,7 +38,7 @@ Users should be able to:
 
 ### What I learned
 
--
+- MongoDB saves data in UTC time and toDateString provides date in local timezone.
 
 ## Author
 
