@@ -5,10 +5,16 @@ export const createExercise = async (req, res) => {
   try {
     const userId = req.body[":_id"];
     const user = await User.findById(userId);
-    req.body.username = user.username;
-    req.body.createdBy = userId;
-    req.body.date = new Date(req.body.date);
-    const exercise = await Exercise.create(req.body);
+    if (!user) {
+      return res.json({ error: "User not found" });
+    }
+    const exerciseData = {
+      ...req.body,
+      username: user.username,
+      createdBy: userId,
+      date: new Date(req.body.date),
+    };
+    const exercise = await Exercise.create(exerciseData);
     const utcDateString = exercise.date
       .toUTCString()
       .replace(",", "")
@@ -59,6 +65,9 @@ export const getLogs = async (req, res) => {
         .limit(Number(limit));
     }
     const user = await User.findById(userId);
+    if (!user) {
+      return res.json({ error: "User not found" });
+    }
     const log = exercises.map((exercise) => {
       const utcDateString = exercise.date
         .toUTCString()
