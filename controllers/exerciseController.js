@@ -19,7 +19,7 @@ export const createExercise = async (req, res) => {
     const utcYear = utcDateString[3];
     const formattedDate = `${utcWeekday} ${utcMonth} ${utcDay} ${utcYear}`;
     res.json({
-      _id: exercise._id,
+      _id: exercise.createdBy,
       username: exercise.username,
       date: formattedDate,
       duration: exercise.duration,
@@ -59,7 +59,7 @@ export const getLogs = async (req, res) => {
         .limit(Number(limit));
     }
     const user = await User.findById(userId);
-    const logs = exercises.map((exercise) => {
+    const log = exercises.map((exercise) => {
       const utcDateString = exercise.date
         .toUTCString()
         .replace(",", "")
@@ -76,7 +76,7 @@ export const getLogs = async (req, res) => {
       };
       return simplifiedExercise;
     });
-    res.json({ _id: user._id, username: user.username, count, logs });
+    res.json({ _id: user._id, username: user.username, count, log });
   } catch (error) {
     console.log(error);
     res.json({ error });
