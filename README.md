@@ -40,7 +40,8 @@ Users should be able to:
 
 ### What I learned
 
-- MongoDB saves data in UTC time and toDateString provides date in local timezone.
+- MongoDB saves data in UTC time and toDateString provides date in local timezone;
+- `res.json({users})` and `res.json(users)` return different result;
 
 ## Author
 
