@@ -25,8 +25,8 @@ export const createExercise = async (req, res) => {
     const utcYear = utcDateString[3];
     const formattedDate = `${utcWeekday} ${utcMonth} ${utcDay} ${utcYear}`;
     res.json({
-      _id: exercise.createdBy,
-      username: exercise.username,
+      _id: userId,
+      username: user.username,
       date: formattedDate,
       duration: exercise.duration,
       description: exercise.description,
@@ -55,15 +55,14 @@ export const getLogs = async (req, res) => {
       queryObject.$and = [{ date: { $lte: new Date(to) } }];
     }
 
-    let count = await Exercise.countDocuments(queryObject);
     let exercises = await Exercise.find(queryObject).sort("createdAt");
 
     if (limit) {
-      count = count > Number(limit) ? Number(limit) : count;
       exercises = await Exercise.find(queryObject)
         .sort("createdAt")
         .limit(Number(limit));
     }
+
     const user = await User.findById(userId);
     if (!user) {
       return res.json({ error: "User not found" });
@@ -85,7 +84,12 @@ export const getLogs = async (req, res) => {
       };
       return simplifiedExercise;
     });
-    res.json({ _id: user._id, username: user.username, count, log });
+    res.json({
+      _id: user._id,
+      username: user.username,
+      count: exercises.length,
+      log,
+    });
   } catch (error) {
     console.log(error);
     res.json({ error });
